@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.heyn.erosplugin.wx_umeng_share.event.JSShareEvent;
+import com.taobao.weex.bridge.JSCallback;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -22,6 +23,8 @@ import com.umeng.socialize.media.UMusic;
  * Introduce: 分享行为的工具类
  */
 public class ShareActionUtil {
+    private static JSCallback success;
+    private static JSCallback failure;
 
     private static UMShareListener shareListener = new UMShareListener() {
         @Override
@@ -31,17 +34,26 @@ public class ShareActionUtil {
 
         @Override
         public void onResult(SHARE_MEDIA share_media) {
+            if (success != null) {
+                success.invoke("分享成功");
+            }
             Log.i("heyn", "onResult");
         }
 
         @Override
-        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+        public void onError(SHARE_MEDIA share_media, Throwable e) {
             Log.i("heyn", "onError");
+            if (failure != null) {
+                failure.invoke("分享失败： " + e.getMessage());
+            }
         }
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
             Log.i("heyn", "onCancel");
+            if (failure != null) {
+                failure.invoke("分享取消了");
+            }
         }
     };
 
@@ -191,6 +203,7 @@ public class ShareActionUtil {
 
     /**
      * 根据分享的类型设置对应的分享方法
+     *
      * @param activity
      * @param event
      * @param shareMedia
@@ -230,5 +243,21 @@ public class ShareActionUtil {
                 shareEmoji(activity, event, shareMedia);
                 break;
         }
+    }
+
+    public static void setFailure(JSCallback fail) {
+        failure = fail;
+    }
+
+    public static void setSuccess(JSCallback succ) {
+        success = succ;
+    }
+
+    public JSCallback getFailure() {
+        return failure;
+    }
+
+    public JSCallback getSuccess() {
+        return success;
     }
 }

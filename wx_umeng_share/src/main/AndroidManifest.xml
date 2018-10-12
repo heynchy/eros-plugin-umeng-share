@@ -12,6 +12,11 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <application>
+
+        <activity
+            android:name=".activity.ShareAllActivity"
+            android:theme="@style/weexShareTitle" />
+
         <!--友盟分享的新浪配置-->
         <activity
             android:name="com.umeng.socialize.media.WBShareCallBackActivity"
