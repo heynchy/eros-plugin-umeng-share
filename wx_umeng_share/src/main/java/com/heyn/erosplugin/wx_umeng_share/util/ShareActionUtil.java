@@ -1,6 +1,9 @@
 package com.heyn.erosplugin.wx_umeng_share.util;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,6 +18,9 @@ import com.umeng.socialize.media.UMMin;
 import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.media.UMusic;
+
+import static com.heyn.erosplugin.wx_umeng_share.activity.ShareAllActivity.finishSelf;
+import static com.heyn.erosplugin.wx_umeng_share.util.AppIsAvailableUtil.isQQClientAvailable;
 
 /**
  * Author: 崔海营
@@ -36,6 +42,7 @@ public class ShareActionUtil {
             if (success != null) {
                 success.invoke("分享成功");
             }
+            finishSelf();
         }
 
         @Override
@@ -43,6 +50,7 @@ public class ShareActionUtil {
             if (failure != null) {
                 failure.invoke("分享失败： " + e.getMessage());
             }
+            finishSelf();
         }
 
         @Override
@@ -50,6 +58,7 @@ public class ShareActionUtil {
             if (failure != null) {
                 failure.invoke("分享取消了");
             }
+            finishSelf();
         }
     };
 
@@ -61,9 +70,13 @@ public class ShareActionUtil {
      * @param shareMedia 分享的平台
      */
     public static void shareText(Activity activity, JSShareEvent event, SHARE_MEDIA shareMedia) {
-        new ShareAction(activity)
-                .withText(event.getContent())
-                .setPlatform(shareMedia)
+        if (TextUtils.isEmpty(event.getContent())) {
+            if (failure != null) {
+                failure.invoke("文本内容为空，不支持分享！");
+            }
+            return;
+        }
+        new ShareAction(activity).withText(event.getContent()).setPlatform(shareMedia)
                 .setCallback(shareListener).share();
     }
 
@@ -75,6 +88,12 @@ public class ShareActionUtil {
      * @param shareMedia 分享的平台
      */
     public static void shareImageUrl(Activity activity, JSShareEvent event, SHARE_MEDIA shareMedia) {
+        if (TextUtils.isEmpty(event.getImageUrl())) {
+            if (failure != null) {
+                failure.invoke("图片链接为空，不支持分享！");
+            }
+            return;
+        }
         UMImage imageurl = new UMImage(activity, event.getImageUrl());
         imageurl.setThumb(new UMImage(activity, event.getImageUrl()));
         new ShareAction(activity)
@@ -82,6 +101,8 @@ public class ShareActionUtil {
                 .setPlatform(shareMedia)
                 .setCallback(shareListener)
                 .share();
+
+
     }
 
     /**
@@ -93,12 +114,21 @@ public class ShareActionUtil {
      */
     public static void shareWebPage(Activity activity, JSShareEvent event, SHARE_MEDIA shareMedia) {
         UMWeb web = new UMWeb(event.getUrl());
+        if (TextUtils.isEmpty(event.getUrl())) {
+            if (failure != null) {
+                failure.invoke("网页链接为空，不支持分享！");
+            }
+            return;
+        }
+        if (event.getImageUrl() != null) {
+            web.setThumb(new UMImage(activity, event.getImageUrl()));
+        }
         web.setTitle(event.getTitle());
-        web.setThumb(new UMImage(activity, event.getImageUrl()));
         web.setDescription(event.getContent());
         new ShareAction(activity).withMedia(web)
                 .setPlatform(shareMedia)
                 .setCallback(shareListener).share();
+
     }
 
     /**
@@ -109,6 +139,12 @@ public class ShareActionUtil {
      * @param shareMedia 分享的平台
      */
     public static void shareTextImage(Activity activity, JSShareEvent event, SHARE_MEDIA shareMedia) {
+        if (TextUtils.isEmpty(event.getImageUrl()) || TextUtils.isEmpty(event.getContent())) {
+            if (failure != null) {
+                failure.invoke("图文数据不完整，不支持分享！");
+            }
+            return;
+        }
         UMImage imageUrl = new UMImage(activity, event.getImageUrl());
         imageUrl.setThumb(new UMImage(activity, event.getImageUrl()));
         new ShareAction(activity)
@@ -126,12 +162,21 @@ public class ShareActionUtil {
      * @param shareMedia 分享的平台
      */
     public static void shareMusic(Activity activity, JSShareEvent event, SHARE_MEDIA shareMedia) {
+        if (TextUtils.isEmpty(event.getUrl())) {
+            if (failure != null) {
+                failure.invoke("音频链接不存在，不支持分享！");
+            }
+            return;
+        }
         UMusic uMusic = new UMusic(event.getUrl());
         uMusic.setTitle(event.getTitle());
         uMusic.setDescription(event.getContent());
         uMusic.setmTargetUrl(event.getUrl());
-        UMImage thumb = new UMImage(activity, event.getImageUrl());
-        uMusic.setThumb(thumb);
+        if (!TextUtils.isEmpty(event.getImageUrl())) {
+            UMImage thumb = new UMImage(activity, event.getImageUrl());
+            uMusic.setThumb(thumb);
+        }
+
         new ShareAction(activity)
                 .withMedia(uMusic)
                 .setPlatform(shareMedia)
@@ -146,6 +191,12 @@ public class ShareActionUtil {
      * @param shareMedia 分享的平台
      */
     public static void shareVideo(Activity activity, JSShareEvent event, SHARE_MEDIA shareMedia) {
+        if (TextUtils.isEmpty(event.getUrl())) {
+            if (failure != null) {
+                failure.invoke("视频链接不存在，不支持分享！");
+            }
+            return;
+        }
         UMVideo video = new UMVideo(event.getUrl());
         video.setThumb(new UMImage(activity, event.getImageUrl()));
         video.setTitle(event.getTitle());
@@ -163,18 +214,21 @@ public class ShareActionUtil {
      * @param shareMedia 分享的平台
      */
     public static void shareMiniProgram(Activity activity, JSShareEvent event, SHARE_MEDIA shareMedia) {
+        if (TextUtils.isEmpty(event.getUrl()) || TextUtils.isEmpty(event.getPath())) {
+            if (failure != null) {
+                failure.invoke("小程序数据不完整，不支持分享！");
+            }
+            return;
+        }
         UMMin umMin = new UMMin(event.getUrl());
         umMin.setTitle(event.getTitle());
         umMin.setDescription(event.getContent());
         umMin.setPath(event.getPath());
         umMin.setUserName(event.getUserName());
-        UMImage umImage;
-        if (TextUtils.isEmpty(event.getImageUrl())) {
-            umImage = new UMImage(activity, event.getImageUrl());
-        } else {
-            umImage = new UMImage(activity, event.getImageUrl());
+        if (!TextUtils.isEmpty(event.getImageUrl())) {
+            UMImage umImage = new UMImage(activity, event.getImageUrl());
+            umMin.setThumb(umImage);
         }
-        umMin.setThumb(umImage);
         new ShareAction(activity)
                 .withMedia(umMin)
                 .setPlatform(shareMedia)
@@ -189,12 +243,44 @@ public class ShareActionUtil {
      * @param shareMedia 分享的平台
      */
     public static void shareEmoji(Activity activity, JSShareEvent event, SHARE_MEDIA shareMedia) {
+        if (TextUtils.isEmpty(event.getImageUrl())) {
+            if (failure != null) {
+                failure.invoke("表情链接不存在，不支持分享！");
+            }
+            return;
+        }
         UMEmoji emoji = new UMEmoji(activity, event.getImageUrl());
         emoji.setThumb(new UMImage(activity, event.getImageUrl()));
         new ShareAction(activity)
                 .withMedia(emoji)
                 .setPlatform(shareMedia)
                 .setCallback(shareListener).share();
+    }
+
+    /**
+     * 因为友盟SDK中不支持QQ的纯文本分享，所以采用主动调用的方式进行纯文本的分享
+     *
+     * @param context 上下文 *
+     * @param content 要分享的文本 *
+     */
+    public static void shareTextToQQ(Context context, String content) {
+        if (isQQClientAvailable(context) && !TextUtils.isEmpty(content)) {
+            Intent intent = new Intent("android.intent.action.SEND");
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+            intent.putExtra(Intent.EXTRA_TEXT, content);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setComponent(new ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity"));
+            context.startActivity(intent);
+            if (success != null) {
+                success.invoke("分享成功");
+            }
+        } else {
+            if (failure != null) {
+                failure.invoke("分享失败");
+            }
+        }
+        finishSelf();
     }
 
     /**
@@ -208,7 +294,11 @@ public class ShareActionUtil {
         switch (event.getShareType().toLowerCase()) {
             case StyleUtil.TEXT:
                 // 分享文本
-                shareText(activity, event, shareMedia);
+                if (SHARE_MEDIA.QQ == shareMedia) {
+                    shareTextToQQ(activity, event.getContent());
+                } else {
+                    shareText(activity, event, shareMedia);
+                }
                 break;
             case StyleUtil.IMAGE:
                 // 分享图片
@@ -249,11 +339,11 @@ public class ShareActionUtil {
         success = succ;
     }
 
-    public JSCallback getFailure() {
+    public static JSCallback getFailure() {
         return failure;
     }
 
-    public JSCallback getSuccess() {
+    public static JSCallback getSuccess() {
         return success;
     }
 }

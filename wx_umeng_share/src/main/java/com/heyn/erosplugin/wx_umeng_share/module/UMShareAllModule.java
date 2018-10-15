@@ -1,6 +1,7 @@
 package com.heyn.erosplugin.wx_umeng_share.module;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.alibaba.weex.plugin.annotation.WeexModule;
 import com.google.gson.Gson;
@@ -36,45 +37,15 @@ public class UMShareAllModule extends WXModule {
      */
     @JSMethod(uiThread = true)
     public void shareParams(String params, final JSCallback success, final JSCallback failure) {
+        if (TextUtils.isEmpty(params)){
+            if (failure!= null){
+                failure.invoke("分享的数据为空，不支持分享！");
+            }
+            return;
+        }
         ShareActionUtil.setSuccess(success);
         ShareActionUtil.setFailure(failure);
         final Activity activity = (Activity) mWXSDKInstance.getContext();
-        final JSShareEvent event = new Gson().fromJson(params, JSShareEvent.class);
-        if (PermissionUtil.initPermission(activity)) {
-            new ShareAction(activity)
-                    .setDisplayList(StyleUtil.initPlatform(activity, event.getShareType()))
-                    .setShareboardclickCallback(new ShareBoardlistener() {
-                        @Override
-                        public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                            ShareActionUtil.shareAction(activity,
-                                    event, share_media);
-                        }
-                    }).open();
-        } else {
-            ShareAllActivity.start(activity, params, new PermissionCallback() {
-                @Override
-                public void permissionSuccess() {
-                    if (success != null) {
-                        new ShareAction(activity)
-                                .setDisplayList(StyleUtil.initPlatform(activity, event.getShareType()))
-                                .setShareboardclickCallback(new ShareBoardlistener() {
-                                    @Override
-                                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                                        ShareActionUtil.shareAction(activity,
-                                                event, share_media);
-                                    }
-                                }).open();
-                    }
-                }
-
-                @Override
-                public void permissionFailure() {
-                    if (failure != null) {
-                        failure.invoke("权限不足，分享失败！");
-                    }
-                }
-            });
-        }
+        ShareAllActivity.start(activity, params);
     }
-
 }
