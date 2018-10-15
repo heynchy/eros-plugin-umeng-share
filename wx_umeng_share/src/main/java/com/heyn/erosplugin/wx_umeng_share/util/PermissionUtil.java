@@ -38,7 +38,7 @@ public class PermissionUtil {
             for (String permission : mPermissionList) {
                 if (PackageManager.PERMISSION_GRANTED !=
                         ContextCompat.checkSelfPermission(activity, permission)) {
-                    ActivityCompat.requestPermissions(activity, null, 123);
+                    ActivityCompat.requestPermissions(activity, mPermissionList, 123);
                     return false;
                 }
             }
