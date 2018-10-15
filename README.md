@@ -118,8 +118,7 @@ public class DDShareActivity extends DingCallBack {
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
 ```
     2. Module名称： UMShareManager
-```java
-```
+    
     3. Module方法： shareParams()
 ```java
  /**
