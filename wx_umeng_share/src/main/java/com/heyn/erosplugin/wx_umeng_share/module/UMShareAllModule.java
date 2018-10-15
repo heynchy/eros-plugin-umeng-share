@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.alibaba.weex.plugin.annotation.WeexModule;
 import com.google.gson.Gson;
 import com.heyn.erosplugin.wx_umeng_share.activity.ShareAllActivity;
+import com.heyn.erosplugin.wx_umeng_share.customInterface.PermissionCallback;
 import com.heyn.erosplugin.wx_umeng_share.event.JSShareEvent;
 import com.heyn.erosplugin.wx_umeng_share.util.PermissionUtil;
 import com.heyn.erosplugin.wx_umeng_share.util.ShareActionUtil;
@@ -34,12 +35,46 @@ public class UMShareAllModule extends WXModule {
      * @param failure 失败的回调
      */
     @JSMethod(uiThread = true)
-    public void shareParams(String params, JSCallback success, JSCallback failure) {
+    public void shareParams(String params, final JSCallback success, final JSCallback failure) {
         ShareActionUtil.setSuccess(success);
         ShareActionUtil.setFailure(failure);
-        Activity activity = (Activity) mWXSDKInstance.getContext();
-        ShareAllActivity.start(activity, params);
+        final Activity activity = (Activity) mWXSDKInstance.getContext();
+        final JSShareEvent event = new Gson().fromJson(params, JSShareEvent.class);
+        if (PermissionUtil.initPermission(activity)) {
+            new ShareAction(activity)
+                    .setDisplayList(StyleUtil.initPlatform(activity, event.getShareType()))
+                    .setShareboardclickCallback(new ShareBoardlistener() {
+                        @Override
+                        public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                            ShareActionUtil.shareAction(activity,
+                                    event, share_media);
+                        }
+                    }).open();
+        } else {
+            ShareAllActivity.start(activity, params, new PermissionCallback() {
+                @Override
+                public void permissionSuccess() {
+                    if (success != null) {
+                        new ShareAction(activity)
+                                .setDisplayList(StyleUtil.initPlatform(activity, event.getShareType()))
+                                .setShareboardclickCallback(new ShareBoardlistener() {
+                                    @Override
+                                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                                        ShareActionUtil.shareAction(activity,
+                                                event, share_media);
+                                    }
+                                }).open();
+                    }
+                }
 
+                @Override
+                public void permissionFailure() {
+                    if (failure != null) {
+                        failure.invoke("权限不足，分享失败！");
+                    }
+                }
+            });
+        }
     }
 
 }

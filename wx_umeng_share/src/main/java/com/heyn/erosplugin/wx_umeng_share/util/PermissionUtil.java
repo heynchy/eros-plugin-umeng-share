@@ -26,24 +26,35 @@ public class PermissionUtil {
             String[] mPermissionList = new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.CALL_PHONE,
-                    Manifest.permission.READ_LOGS,
                     Manifest.permission.READ_PHONE_STATE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.SET_DEBUG_APP,
-                    Manifest.permission.SYSTEM_ALERT_WINDOW,
                     Manifest.permission.GET_ACCOUNTS,
-                    Manifest.permission.WRITE_APN_SETTINGS
             };
             for (String permission : mPermissionList) {
                 if (PackageManager.PERMISSION_GRANTED !=
                         ContextCompat.checkSelfPermission(activity, permission)) {
-                    ActivityCompat.requestPermissions(activity, mPermissionList, 123);
                     return false;
                 }
             }
         }
-
         return true;
+    }
+
+    /**
+     * 友盟分享初始化相关权限
+     *
+     * @param activity
+     */
+    public static void getPermission(Activity activity) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            String[] mPermissionList = new String[]{
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.READ_PHONE_STATE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.GET_ACCOUNTS,
+            };
+            ActivityCompat.requestPermissions(activity, mPermissionList, 123);
+        }
     }
 }

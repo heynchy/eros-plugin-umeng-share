@@ -15,7 +15,7 @@
 
         <activity
             android:name=".activity.ShareAllActivity"
-            android:theme="@style/weexShareTitle" />
+            android:theme="@style/weexTransparent" />
 
         <!--友盟分享的新浪配置-->
         <activity

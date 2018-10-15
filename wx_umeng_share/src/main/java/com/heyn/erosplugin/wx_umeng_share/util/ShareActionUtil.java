@@ -29,7 +29,6 @@ public class ShareActionUtil {
     private static UMShareListener shareListener = new UMShareListener() {
         @Override
         public void onStart(SHARE_MEDIA share_media) {
-            Log.i("heyn", "onStart");
         }
 
         @Override
@@ -37,12 +36,10 @@ public class ShareActionUtil {
             if (success != null) {
                 success.invoke("分享成功");
             }
-            Log.i("heyn", "onResult");
         }
 
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable e) {
-            Log.i("heyn", "onError");
             if (failure != null) {
                 failure.invoke("分享失败： " + e.getMessage());
             }
@@ -50,7 +47,6 @@ public class ShareActionUtil {
 
         @Override
         public void onCancel(SHARE_MEDIA share_media) {
-            Log.i("heyn", "onCancel");
             if (failure != null) {
                 failure.invoke("分享取消了");
             }

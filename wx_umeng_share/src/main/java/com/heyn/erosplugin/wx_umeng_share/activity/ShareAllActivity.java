@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.gson.Gson;
+import com.heyn.erosplugin.wx_umeng_share.customInterface.PermissionCallback;
 import com.heyn.erosplugin.wx_umeng_share.event.JSShareEvent;
 import com.heyn.erosplugin.wx_umeng_share.util.PermissionUtil;
 import com.heyn.erosplugin.wx_umeng_share.util.ShareActionUtil;
@@ -32,26 +33,14 @@ import static com.heyn.erosplugin.wx_umeng_share.util.Constant.SHARE_PARAMS;
  * Introduce: 相关权限行为处理的Activity
  */
 public class ShareAllActivity extends Activity implements IWXRenderListener {
-    private String mParamas;      // 传递的参数
+    private String mParamas;              // 传递的参数
+    private static PermissionCallback callback;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        if (PermissionUtil.initPermission(this)) {
-            final JSShareEvent event = new Gson().fromJson(mParamas, JSShareEvent.class);
-            new ShareAction(this)
-                    .setDisplayList(StyleUtil.initPlatform(this, event.getShareType()))
-                    .setShareboardclickCallback(new ShareBoardlistener() {
-                        @Override
-                        public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                            ShareActionUtil.shareAction(ShareAllActivity.this,
-                                    event, share_media);
-                        }
-                    }).open();
-        }
-
     }
 
 
@@ -59,16 +48,8 @@ public class ShareAllActivity extends Activity implements IWXRenderListener {
      * 初始化基本配置
      */
     private void init() {
-        Window window = getWindow();
-        window.setGravity(Gravity.LEFT | Gravity.TOP);
-        WindowManager.LayoutParams params = window.getAttributes();
-        params.x = 0;
-        params.y = 0;
-        params.height = 1;
-        params.width = 1;
-        params.alpha = 0.0f;
-        window.setAttributes(params);
         mParamas = getIntent().getStringExtra(SHARE_PARAMS);
+        PermissionUtil.getPermission(this);
     }
 
 
@@ -82,16 +63,15 @@ public class ShareAllActivity extends Activity implements IWXRenderListener {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        final JSShareEvent event = new Gson().fromJson(mParamas, JSShareEvent.class);
-        new ShareAction(this)
-                .setDisplayList(StyleUtil.initPlatform(this, event.getShareType()))
-                .setShareboardclickCallback(new ShareBoardlistener() {
-                    @Override
-                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                        ShareActionUtil.shareAction(ShareAllActivity.this,
-                                event, share_media);
-                    }
-                }).open();
+        if (requestCode == 123 && PermissionUtil.initPermission(this)) {
+            if (callback != null) {
+                callback.permissionSuccess();
+            }
+        } else {
+            if (callback != null) {
+                callback.permissionFailure();
+            }
+        }
         finish();
     }
 
@@ -100,10 +80,15 @@ public class ShareAllActivity extends Activity implements IWXRenderListener {
      *
      * @param context
      */
-    public static void start(Context context, String params) {
+    public static void start(Context context, String params, PermissionCallback callback) {
         Intent intent = new Intent(context, ShareAllActivity.class);
         intent.putExtra(SHARE_PARAMS, params);
         context.startActivity(intent);
+        setCallback(callback);
+    }
+
+    public static void setCallback(PermissionCallback callback) {
+        ShareAllActivity.callback = callback;
     }
 
     @Override
