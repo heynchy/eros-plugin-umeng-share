@@ -115,3 +115,17 @@ public class DDShareActivity extends DingCallBack {
 	// 配置微博平台的相关参数（友盟的基本方法---appKey, appscret, 安全域名）
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
 ```
+    2. Module名称： UMShareManager
+    
+    3. Module方法： shareParams()
+```java
+ /**
+     * 分享面板（默认有 微信， 朋友圈， 微信收藏， 新浪微博， QQ, QQ空间，钉钉）
+     *
+     * @param params  相关参数
+     * @param success 成功的回调
+     * @param failure 失败的回调
+     */
+    @JSMethod(uiThread = true)
+    public void shareParams(String params, final JSCallback success, final JSCallback failure)
+```
