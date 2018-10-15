@@ -89,3 +89,29 @@ public class DDShareActivity extends DingCallBack {
              ......
         }
 ```
+## 完成以上配置后就可以使用了
+    1. 在APPlication 文件中，初始化友盟和相关的平台参数
+```java
+        //设置LOG开关，默认为false
+        UMConfigure.setLogEnabled(true);
+	/**
+         * 初始化common库，初始化组件化基础库, 统计SDK/推送SDK/分享SDK都必须调用此初始化接口
+         * 参数1:上下文，不能为空
+         * 参数2:【友盟+】 AppKey
+         * 参数3:【友盟+】 Channel
+         * 参数4:设备类型，UMConfigure.DEVICE_TYPE_PHONE为手机、UMConfigure.DEVICE_TYPE_BOX为盒子，默认为手机
+         * 参数5:Push推送业务的secret
+         */
+        UMConfigure.init(this, "59892f08310c9307b60023d0", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
+	 /**
+	  *  配置相关平台的参数
+	  */
+	// 配置微信平台的相关参数（友盟的基本方法---appKey, appscret）
+        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+	// 配置QQ平台的相关参数（友盟的基本方法---appKey, appscret）
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+	// 配置钉钉平台的相关参数（友盟的基本方法---appKey）
+        PlatformConfig.setDing("dingoalmlnohc0wggfedpk");
+	// 配置微博平台的相关参数（友盟的基本方法---appKey, appscret, 安全域名）
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
+```
