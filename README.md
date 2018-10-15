@@ -90,6 +90,8 @@ public class DDShareActivity extends DingCallBack {
         }
 ```
 ## 完成以上配置后就可以使用了
+
+#### Android的参数初始化以及相关的方法介绍
     1. 在APPlication 文件中，初始化友盟和相关的平台参数
 ```java
         //设置LOG开关，默认为false
@@ -116,7 +118,8 @@ public class DDShareActivity extends DingCallBack {
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
 ```
     2. Module名称： UMShareManager
-    
+```java
+```
     3. Module方法： shareParams()
 ```java
  /**
@@ -129,3 +132,5 @@ public class DDShareActivity extends DingCallBack {
     @JSMethod(uiThread = true)
     public void shareParams(String params, final JSCallback success, final JSCallback failure)
 ```
+### JS 端的使用方法
+    
