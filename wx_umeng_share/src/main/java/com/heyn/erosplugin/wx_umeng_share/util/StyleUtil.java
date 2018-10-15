@@ -42,7 +42,7 @@ public class StyleUtil {
                 }
 
                 if (isQQ && AppIsAvailableUtil.isQQClientAvailable(context)) {
-                    // platforms.add(SHARE_MEDIA.QQ);
+                     platforms.add(SHARE_MEDIA.QQ);
                     platforms.add(SHARE_MEDIA.QZONE);
                 }
 
