@@ -132,7 +132,7 @@ public class DDShareActivity extends DingCallBack {
     public void shareParams(String params, final JSCallback success, final JSCallback failure)
 ```
 ### JS 端的使用方法
-    1. 分享文本
+    1. 分享文本-----shareType: Text
 ```java
     /**
      *  分享纯文本
@@ -148,7 +148,7 @@ public class DDShareActivity extends DingCallBack {
                     console.log("heyn----failure: " + failure);
                 })
 ```
-    2. 分享网络图片
+    2. 分享网络图片-----shareType: Image
 ```java
     /**
      *  分享图片
@@ -164,7 +164,7 @@ public class DDShareActivity extends DingCallBack {
                     console.log("heyn----failure: " + failure);
                 })
 ```
-    3. 分享网页------需要传递参数 url（网页链接）, title （网页的标题）, content（网页简介）， imageUrl(网页缩略图)， shareType(分享类型)
+    3. 分享网页------ shareType:webPage
 ```java
     /**
      *  分享网页
@@ -186,7 +186,7 @@ public class DDShareActivity extends DingCallBack {
                     console.log("heyn----failure: " + failure);
                 })
 ```
-     4. 分享图文
+     4. 分享图文-----shareType:TextImage
 ```java
               /**
                *  分享图文
@@ -198,6 +198,92 @@ public class DDShareActivity extends DingCallBack {
                     content: '分享图文',
                     imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
                     shareType: 'TextImage'
+                }, success => {
+                    console.log("heyn----success: " + success);
+                }, failure => {
+                    console.log("heyn----failure: " + failure);
+                })
+```
+    5. 分享音频----shareType: music
+```java
+/**
+ *  分享音乐
+ *  url:      音乐链接（不能为空）
+ *  title:    音乐标题（可为空）
+ *  content:  音乐简介（可为空）
+ *  imageUrl: 缩略图  （可为空）
+ *  shareType:分享类型 (不能为空)
+ */
+    weex.requireModule('UMShareManager').shareParams({
+                    url:'https://y.qq.com/n/yqq/song/108782194_num.html?ADTAG=h5_playsong&no_redirect=1',
+                    title:'音乐分享',
+                    content: '这是一首歌',
+                    imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+                    shareType: 'music'
+                }, success => {
+                    console.log("heyn----success: " + success);
+                }, failure => {
+                    console.log("heyn----failure: " + failure);
+                })
+```
+    6. 分享视频------shareType:video
+```java
+                /**
+                 * 分享视频
+                 * url:       视频链接 (不能为空)
+                 * title:     视频标题 (可为空)
+                 * content:   视频简介 (可为空)
+                 * imageUrl:  缩略图   (可为空)
+                 * shareType: 分享类型 (不能为空)
+                 */
+                weex.requireModule('UMShareManager').shareParams({
+                    url:'http://video.sina.com.cn/p/sports/cba/v/2013-10-22/144463050817.html',
+                    title: '视频标题',
+                    content: '视频分享',
+                    imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+                    shareType: 'video'
+                }, success => {
+                    console.log("heyn----success: " + success);
+                }, failure => {
+                    console.log("heyn----failure: " + failure);
+                })
+```
+    7. 分享表情 ----shareType:emoji
+```java
+                /**
+                 * 分享表情
+                 * imageUrl:  表情链接 （不能为空）
+                 * shareType: 分享类型 （不能为空）
+                 */
+                weex.requireModule('UMShareManager').shareParams({
+                    imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+                    shareType: 'emoji'
+                }, success => {
+                    console.log("heyn----success: " + success);
+                }, failure => {
+                    console.log("heyn----failure: " + failure);
+                })
+```
+    8. 分享小程序----shareType: minApp
+```java 
+                /**
+                 * 分享小程序
+                 * url:      小程序的链接
+                 * title:    小程序的标题
+                 * content:  小程序简介
+                 * imageUrl: 缩略图
+                 * path:     小程序的页面路径
+                 * userName: 小程序的ID
+                 * shareType:分享类型 
+                 */
+                weex.requireModule('UMShareManager').shareParams({
+                    url:'http://mobile.umeng.com/social',
+                    title:'小程序白标题',
+                    content: '分享小程序',
+                    imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+                    path:'pages/page10007/page10007',
+                    userName:'gh_3ac2059ac66f',
+                    shareType: 'minApp'
                 }, success => {
                     console.log("heyn----success: " + success);
                 }, failure => {
