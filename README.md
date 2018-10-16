@@ -132,4 +132,75 @@ public class DDShareActivity extends DingCallBack {
     public void shareParams(String params, final JSCallback success, final JSCallback failure)
 ```
 ### JS 端的使用方法
-    
+    1. 分享文本
+```java
+    /**
+     *  分享纯文本
+     *  content：  文本内容（不能为空）
+     *  shareType：分享类型（不能为空）
+     */
+ weex.requireModule('UMShareManager').shareParams({
+                    content: '这是一个未来！！',
+                    shareType: 'Text'
+                }, success => {
+                    console.log("heyn----success: " + success);
+                }, failure => {
+                    console.log("heyn----failure: " + failure);
+                })
+```
+    2. 分享网络图片
+```java
+    /**
+     *  分享图片
+     *  imageUrl： 图片链接（不能为空）
+     *  shareType：分享类型（不能为空）
+     */
+  weex.requireModule('UMShareManager').shareParams({
+                    imageUrl: 'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+                    shareType: 'Image'
+                }, success => {
+                    console.log("heyn----success: " + success);
+                }, failure => {
+                    console.log("heyn----failure: " + failure);
+                })
+```
+    3. 分享网页------需要传递参数 url（网页链接）, title （网页的标题）, content（网页简介）， imageUrl(网页缩略图)， shareType(分享类型)
+```java
+    /**
+     *  分享网页
+     *  url：      网页链接（不能为空）
+     *  title：    网页标题（可为空）
+     *  content：  网页简介（可为空）
+     *  imageUrl： 网页缩略图链接（可为空）
+     *  shareType：分享类型（不能为空）
+     */
+   weex.requireModule('UMShareManager').shareParams({
+                    url: 'https://www.baidu.com/',  
+                    title:'我的网页分享ddd',
+                    content:'这是一个网页分享',
+                    imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+                    shareType: 'webPage'
+                }, success => {
+                    console.log("heyn----success: " + success);
+                }, failure => {
+                    console.log("heyn----failure: " + failure);
+                })
+```
+     4. 分享图文
+```java
+              /**
+               *  分享图文
+               *  content :  文本内容 (不能为空)
+               *  imageUrl： 图片链接（不能为空）
+               *  shareType：分享类型（不能为空）
+               */
+               weex.requireModule('UMShareManager').shareParams({
+                    content: '分享图文',
+                    imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+                    shareType: 'TextImage'
+                }, success => {
+                    console.log("heyn----success: " + success);
+                }, failure => {
+                    console.log("heyn----failure: " + failure);
+                })
+```
