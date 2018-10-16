@@ -6,7 +6,7 @@
 ### 1. Add dependency
 ```groovy
 	dependencies {
-	        implementation 'com.github.heynchy:eros-plugin-umeng-share:0.0.3'
+	        implementation 'com.github.heynchy:eros-plugin-umeng-share:0.0.4'
 	}
 ```
 ### 2. Modify AndroidManifest.xml(修改清单文件)
