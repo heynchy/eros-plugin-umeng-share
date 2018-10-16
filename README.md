@@ -186,7 +186,7 @@ public class DDShareActivity extends DingCallBack {
           console.log("heyn----failure: " + failure);
      })
 ```
-   4. 分享图文-----shareType:TextImage
+    4. 分享图文-----shareType:TextImage
 ```java
     /**
      *  分享图文
