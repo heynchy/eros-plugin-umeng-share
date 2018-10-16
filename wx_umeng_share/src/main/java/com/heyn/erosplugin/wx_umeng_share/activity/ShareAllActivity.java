@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -66,6 +67,13 @@ public class ShareAllActivity extends Activity implements IWXRenderListener {
         mParamas = getIntent().getStringExtra(SHARE_PARAMS);
         final JSShareEvent event = new Gson().fromJson(mParamas, JSShareEvent.class);
         mShareAction = new ShareAction(this);
+        if (TextUtils.isEmpty(event.getShareType())){
+            if (ShareActionUtil.getFailure()!= null){
+                ShareActionUtil.getFailure().invoke("分享类型未设置");
+            }
+            finishSelf();
+            return;
+        }
         mShareAction.setDisplayList(StyleUtil.initPlatform(this, event.getShareType()))
                 .setShareboardclickCallback(new ShareBoardlistener() {
                     @Override
