@@ -290,6 +290,11 @@ public class DDShareActivity extends DingCallBack {
          console.log("heyn----failure: " + failure);
    })
 ```
+
+### 集成中遇到的问题
+    1. 与neuxs包中已经集成的微信6.9.3版本的包发生冲突？
+       修改neuxs中的build.gradle中的 compile files('libs/umeng-share-core-6.9.3.jar')修改为：
+        provided files('libs/umeng-share-core-6.9.3.jar');
 License
 ------
     Copyright 2018 heynchy
