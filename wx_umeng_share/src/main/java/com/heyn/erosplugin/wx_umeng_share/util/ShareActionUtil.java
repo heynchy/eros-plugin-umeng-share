@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.heyn.erosplugin.wx_umeng_share.event.JSShareEvent;
 import com.taobao.weex.bridge.JSCallback;
@@ -23,7 +22,7 @@ import static com.heyn.erosplugin.wx_umeng_share.activity.ShareAllActivity.finis
 import static com.heyn.erosplugin.wx_umeng_share.util.AppIsAvailableUtil.isQQClientAvailable;
 
 /**
- * Author: 崔海营
+ * Author: heynchy
  * Date:   2018/10/11
  * <p>
  * Introduce: 分享行为的工具类

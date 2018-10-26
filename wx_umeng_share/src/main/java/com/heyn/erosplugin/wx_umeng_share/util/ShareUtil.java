@@ -9,7 +9,7 @@ import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 
 /**
- * Author: 崔海营
+ * Author: heynchy
  * Date:   2018/10/10
  * <p>
  * Introduce: 分享的工具类

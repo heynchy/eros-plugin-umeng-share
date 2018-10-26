@@ -1,7 +1,7 @@
 package com.heyn.erosplugin.wx_umeng_share.util;
 
 /**
- * Author: 崔海营
+ * Author: heynchy
  * Date:   2018/10/12
  * <p>
  * Introduce:

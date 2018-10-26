@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import java.util.List;
 
 /**
- * Author: 崔海营
+ * Author: heynchy
  * Date:   2018/10/11
  * <p>
  * Introduce:

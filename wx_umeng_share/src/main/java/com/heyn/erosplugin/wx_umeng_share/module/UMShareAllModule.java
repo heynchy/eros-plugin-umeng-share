@@ -4,23 +4,14 @@ import android.app.Activity;
 import android.text.TextUtils;
 
 import com.alibaba.weex.plugin.annotation.WeexModule;
-import com.google.gson.Gson;
 import com.heyn.erosplugin.wx_umeng_share.activity.ShareAllActivity;
-import com.heyn.erosplugin.wx_umeng_share.customInterface.PermissionCallback;
-import com.heyn.erosplugin.wx_umeng_share.event.JSShareEvent;
-import com.heyn.erosplugin.wx_umeng_share.util.PermissionUtil;
 import com.heyn.erosplugin.wx_umeng_share.util.ShareActionUtil;
-import com.heyn.erosplugin.wx_umeng_share.util.StyleUtil;
 import com.taobao.weex.annotation.JSMethod;
 import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.WXModule;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.shareboard.SnsPlatform;
-import com.umeng.socialize.utils.ShareBoardlistener;
 
 /**
- * Author: 崔海营
+ * Author: heynchy
  * Date:   2018/10/12
  * <p>
  * Introduce:

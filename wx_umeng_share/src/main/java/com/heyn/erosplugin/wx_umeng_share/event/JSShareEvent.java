@@ -3,7 +3,7 @@ package com.heyn.erosplugin.wx_umeng_share.event;
 import java.io.Serializable;
 
 /**
- * Author: 崔海营
+ * Author: heynchy
  * Date:   2018/10/9
  * <p>
  * Introduce:

@@ -2,7 +2,6 @@ package com.heyn.erosplugin.wx_umeng_share.util;
 
 import android.content.Context;
 
-import com.heyn.erosplugin.wx_umeng_share.App;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.ArrayList;

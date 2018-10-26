@@ -7,16 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.heyn.erosplugin.wx_umeng_share.R;
-import com.heyn.erosplugin.wx_umeng_share.customInterface.PermissionCallback;
 import com.heyn.erosplugin.wx_umeng_share.event.JSShareEvent;
 import com.heyn.erosplugin.wx_umeng_share.util.PermissionUtil;
 import com.heyn.erosplugin.wx_umeng_share.util.ShareActionUtil;
@@ -33,7 +29,7 @@ import com.umeng.socialize.utils.ShareBoardlistener;
 import static com.heyn.erosplugin.wx_umeng_share.util.Constant.SHARE_PARAMS;
 
 /**
- * Author: 崔海营
+ * Author: heynchy
  * Date:   2018/9/19
  * <p>
  * Introduce: 相关权限行为处理的Activity
