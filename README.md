@@ -2,11 +2,15 @@
 基于Eros框架下的友盟分享集成（Weex与Android的交互）：
      
       目前仅支持友盟带有分享面板的分享（包括微信，微信朋友圈，微信收藏，QQ，QQ空间，新浪微博，钉钉）
+     
+     1. 版本0.0.7  ----- 处理集成过程中的兼容性问题
+     2. 版本0.0.8  ------处理权限问题； 微信分享后，选择留在微信无回调的问题
+     
 ## Usage
 ### 1. Add dependency
 ```groovy
 	dependencies {
-	        implementation 'com.github.heynchy:eros-plugin-umeng-share:0.0.7'
+	        implementation 'com.github.heynchy:eros-plugin-umeng-share:0.0.8'
 	}
 ```
 ### 2. Modify AndroidManifest.xml(修改清单文件)
