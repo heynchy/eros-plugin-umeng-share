@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -39,6 +40,8 @@ public class ShareAllActivity extends Activity implements IWXRenderListener {
     private String mParamas;         // 传递的参数
     private ShareAction mShareAction;
     private RelativeLayout mRootView;
+    private static boolean isWxSharing;  //是否调起了分享。如果调起分享，这个值为true。
+    private static boolean isWxResume;   //Activity是否处于前台。
 
 
     @Override
@@ -51,6 +54,43 @@ public class ShareAllActivity extends Activity implements IWXRenderListener {
         } else {
             PermissionUtil.getPermission(this);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 处理分享成功后留在微信导致无回调的问题
+        isWxSharing = false;
+        isWxResume = true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // 处理分享成功后留在微信导致无回调的问题
+        if (isWxSharing) {
+            isWxSharing = false;
+            //这里要延时0.2秒在判断是否回调了onResume，因为onRestart在onResume之前执行。
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // 如果0.2秒后没有调用onResume，则认为是分享成功并且留着微信。
+                    if (!isWxResume) {
+                        if (ShareActionUtil.getSuccess() != null) {
+                            ShareActionUtil.getSuccess().invoke("分享成功！");
+                        }
+                        finishSelf();
+                    }
+                }
+            }, 200);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 处理分享成功后留在微信导致无回调的问题
+        isWxResume = false;
     }
 
 
@@ -74,6 +114,14 @@ public class ShareAllActivity extends Activity implements IWXRenderListener {
                 .setShareboardclickCallback(new ShareBoardlistener() {
                     @Override
                     public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                        if (share_media == SHARE_MEDIA.WEIXIN ||
+                                share_media == SHARE_MEDIA.WEIXIN_FAVORITE ||
+                                share_media == SHARE_MEDIA.WEIXIN_CIRCLE) {
+                            // 如果是分享至微信
+                            isWxSharing = true;
+                        } else {
+                            isWxSharing = false;
+                        }
                         ShareActionUtil.shareAction(ShareAllActivity.this,
                                 event, share_media);
                     }
@@ -144,6 +192,7 @@ public class ShareAllActivity extends Activity implements IWXRenderListener {
      * 销毁界面
      */
     public static void finishSelf() {
+        isWxResume = true;
         if (activity != null) {
             activity.finish();
             activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
