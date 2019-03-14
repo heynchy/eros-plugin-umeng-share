@@ -1,10 +1,12 @@
 # eros-plugin-umeng-share
 基于Eros框架下的友盟分享集成（Weex与Android的交互）：
      
-      目前仅支持友盟带有分享面板的分享（包括微信，微信朋友圈，微信收藏，QQ，QQ空间，新浪微博，钉钉）; 可以选择分享的条目，例如选择分享至微信（微信， 朋友圈， 微信收藏）
+      目前仅支持友盟带有分享面板的分享（包括微信，微信朋友圈，微信收藏，QQ，QQ空间，新浪微博，钉钉）; 
+      可以选择分享的条目，例如选择分享至微信（微信， 朋友圈， 微信收藏）
      
-     1. 版本0.0.7  ----- 处理集成过程中的兼容性问题
-     2. 版本0.0.8  ------处理权限问题； 微信分享后，选择留在微信无回调的问题
+     1. 初始版本 ------支持带有分享面板的分享； 可以选择分享面板的展示条目
+     2. 版本0.0.7  ----- 处理集成过程中的兼容性问题
+     3. 版本0.0.8  ------处理权限问题； 微信分享后，选择留在微信无回调的问题
      
 ## Usage
 ### 1. Add dependency
@@ -140,6 +142,12 @@ public class DDShareActivity extends DingCallBack {
     @JSMethod(uiThread = true)
     public void shareParams(String params, final JSCallback success, final JSCallback failure)
 ```
+    4. 设置面板展示条目的参数（以下参数默认为 true, 当设置为false时，分享面板不会展示对应的项目，设置需在Application中进行）
+       StyleUtil.isWeixin = true;(微信分享，包括微信，朋友圈，微信收藏)
+       StyleUtil.isSina = true;  （新浪微博分享）
+       StyleUtil.isQQ = true;     (QQ 分享， 包括QQ和QQ空间)
+       StyleUtil.isDingTalk = true;（钉钉分享）)
+       
 ### JS 端的使用方法
     1. 分享文本-----shareType: Text
 ```java
