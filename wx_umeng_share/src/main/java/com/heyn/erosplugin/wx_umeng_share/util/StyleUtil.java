@@ -14,9 +14,12 @@ import java.util.List;
 public class StyleUtil {
 
     public static boolean isWeixin = true;
+    public static boolean isWeixinCircle = true;
+    public static boolean isWeixinFavorite = true;
     public static boolean isSina = true;
     public static boolean isQQ = true;
     public static boolean isDingTalk = true;
+
 
     public static final String TEXT = "text";             // 纯文本
     public static final String IMAGE = "image";           // 图片
@@ -37,8 +40,12 @@ public class StyleUtil {
             case WEBPAGE:       // 分享的类型为网页链接
                 if (isWeixin && AppIsAvailableUtil.isWeixinAvailable(context)) {
                     platforms.add(SHARE_MEDIA.WEIXIN);
-                    platforms.add(SHARE_MEDIA.WEIXIN_CIRCLE);
-                    platforms.add(SHARE_MEDIA.WEIXIN_FAVORITE);
+                    if (isWeixinCircle){
+                        platforms.add(SHARE_MEDIA.WEIXIN_CIRCLE);
+                    }
+                   if (isWeixinFavorite){
+                       platforms.add(SHARE_MEDIA.WEIXIN_FAVORITE);
+                   }
                 }
                 if (isSina && AppIsAvailableUtil.isSinaAvailable(context)) {
                     platforms.add(SHARE_MEDIA.SINA);
@@ -97,5 +104,31 @@ public class StyleUtil {
             shareMedia[i] = platforms.get(i);
         }
         return shareMedia;
+    }
+
+    /**
+     * 单一分享时选择对应的分享平台
+     *
+     * @param media
+     * @return
+     */
+    public static SHARE_MEDIA getShareMedia(int media) {
+        switch (media) {
+            case 0:  // 微信分享
+                return SHARE_MEDIA.WEIXIN;
+            case 1:  // 微信朋友圈分享
+                return SHARE_MEDIA.WEIXIN_CIRCLE;
+            case 2:  // 微信收藏分享
+                return SHARE_MEDIA.WEIXIN_FAVORITE;
+            case 3:  // QQ 分享
+                return SHARE_MEDIA.QQ;
+            case 4:  // QQ空间分享
+                return SHARE_MEDIA.QZONE;
+            case 5:  // 新浪微博分享
+                return SHARE_MEDIA.SINA;
+            case 6:  // 钉钉分享
+                return SHARE_MEDIA.DINGTALK;
+        }
+        return null;
     }
 }

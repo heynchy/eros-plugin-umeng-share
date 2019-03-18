@@ -1,5 +1,7 @@
 package com.heyn.erosplugin.wx_umeng_share.event;
 
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
 import java.io.Serializable;
 
 /**
@@ -17,7 +19,8 @@ public class JSShareEvent implements Serializable {
     private String path;            // 分享小程序用到的页面路径
     private String userName;        // 分享小程序的名称
     private String shareType;       // 分享的资源类型
-    private String [] platforms; // 分享的平台类型
+    private String [] platforms;    // 分享的平台类型(分享面板)
+    private int shareMedia;         // 分享至某一平台
 
 
     public String getTitle() {
@@ -82,5 +85,13 @@ public class JSShareEvent implements Serializable {
 
     public void setPlatforms(String[] platforms) {
         this.platforms = platforms;
+    }
+
+    public int getShareMedia() {
+        return shareMedia;
+    }
+
+    public void setShareMedia(int shareMedia) {
+        this.shareMedia = shareMedia;
     }
 }

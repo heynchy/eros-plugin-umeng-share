@@ -10,12 +10,15 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application>
 
         <activity
             android:name=".activity.ShareAllActivity"
+            android:theme="@style/weexTransparent" />
+        <activity
+            android:name=".activity.SharePlatformActivity"
             android:theme="@style/weexTransparent" />
 
         <!--友盟分享的新浪配置-->

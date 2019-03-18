@@ -290,6 +290,9 @@ public class ShareActionUtil {
      * @param shareMedia
      */
     public static void shareAction(Activity activity, JSShareEvent event, SHARE_MEDIA shareMedia) {
+        if (shareMedia == null){
+
+        }
         switch (event.getShareType().toLowerCase()) {
             case StyleUtil.TEXT:
                 // 分享文本
