@@ -148,7 +148,7 @@ public class DDShareActivity extends DingCallBack {
     3. Module方法：
       3.1  shareParams()-----带有分享面板
 ```java
- /**
+    /**
      * 分享面板（默认有 微信， 朋友圈， 微信收藏， 新浪微博， QQ, QQ空间，钉钉）
      *
      * @param params  相关参数
@@ -171,6 +171,7 @@ public class DDShareActivity extends DingCallBack {
     public void sharePlatform(String params, final JSCallback success, final JSCallback failure) 
 ```
     4. 设置面板展示条目的参数（以下参数默认为 true, 当设置为false时，分享面板不会展示对应的项目，设置需在Application中进行）
+       
        StyleUtil.isWeixin = true;         (微信分享，包括微信，朋友圈，微信收藏)
        StyleUtil.isWeixinCircle = true;   (微信朋友圈)
        StyleUtil.isWeixinFavorite = true; (微信收藏)
@@ -180,10 +181,9 @@ public class DDShareActivity extends DingCallBack {
        StyleUtil.isDingTalk = true;      （钉钉分享)
        
 ### JS 端的使用方法 
-    1. 分享文本-----shareType: Text
-    
-      1.1 带分享面板 
+    1. 分享文本-----shareType: Text     
 ```java
+   1.1 带分享面板 
     /**
      *  分享纯文本 --- 分享面板
      *  content：  文本内容（不能为空）
