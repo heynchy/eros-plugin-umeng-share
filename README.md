@@ -339,7 +339,7 @@ public class DDShareActivity extends DingCallBack {
           content: '分享图文',
           imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
           shareType: 'TextImage'，
-	   shareMedia:'weixin'
+	  shareMedia:'weixin'
      }, success => {
           console.log("heyn----success: " + success);
      }, failure => {
@@ -347,7 +347,7 @@ public class DDShareActivity extends DingCallBack {
      })
 ```
 ##### 5. 分享音频----shareType: music
-    5.1 
+    5.1  带分享面板 ----shareParams
 ```java
 /**
  *  分享音乐
@@ -369,7 +369,32 @@ public class DDShareActivity extends DingCallBack {
       console.log("heyn----failure: " + failure);
  })
 ```
-    6. 分享视频------shareType:video
+    5.2 直接分享至某一平台 ----sharePlatform
+```java
+/**
+ *  分享音乐------直接分享至某一平台
+ *  url:      音乐链接（不能为空）
+ *  title:    音乐标题（可为空）
+ *  content:  音乐简介（可为空）
+ *  imageUrl: 缩略图  （可为空）
+ *  shareType:分享类型 (不能为空)
+ *  shareMedia: 分享的平台类型（必传）--此处以分享至微信为例（其他参数可参考上面第5条的shareMedia 的取值）
+ */
+ weex.requireModule('UMShareManager').sharePlatform({
+      url:'https://y.qq.com/n/yqq/song/108782194_num.html?ADTAG=h5_playsong&no_redirect=1',
+      title:'音乐分享',
+      content: '这是一首歌',
+      imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+      shareType: 'music'，
+      shareMedia:'weixin'
+ }, success => {
+      console.log("heyn----success: " + success);
+ }, failure => {
+      console.log("heyn----failure: " + failure);
+ })
+```
+###### 6. 分享视频------shareType:video
+    6.1  带分享面板 ----shareParams 
 ```java
   /**
    * 分享视频
@@ -391,7 +416,32 @@ public class DDShareActivity extends DingCallBack {
         console.log("heyn----failure: " + failure);
    })
 ```
-    7. 分享表情 ----shareType:emoji
+    6.2 直接分享至某一平台 ----sharePlatform 
+```java
+  /**
+   * 分享视频------直接分享至某一平台
+   * url:       视频链接 (不能为空)
+   * title:     视频标题 (可为空)
+   * content:   视频简介 (可为空)
+   * imageUrl:  缩略图   (可为空)
+   * shareType: 分享类型 (不能为空)
+   * shareMedia: 分享的平台类型（必传）--此处以分享至微信为例（其他参数可参考上面第5条的shareMedia 的取值）
+   */
+   weex.requireModule('UMShareManager').sharePlatform({
+        url:'http://video.sina.com.cn/p/sports/cba/v/2013-10-22/144463050817.html',
+        title: '视频标题',
+        content: '视频分享',
+        imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+        shareType: 'video'，
+	shareMedia:'weixin'
+   }, success => {
+        console.log("heyn----success: " + success);
+   }, failure => {
+        console.log("heyn----failure: " + failure);
+   })
+```
+ ##### 7. 分享表情 ----shareType:emoji
+    7.1  带分享面板 ----shareParams 
 ```java
    /**
     * 分享表情
@@ -407,7 +457,26 @@ public class DDShareActivity extends DingCallBack {
          console.log("heyn----failure: " + failure);
     })
 ```
-    8. 分享小程序----shareType: minApp
+    7.2  直接分享至某一平台 ----sharePlatform 
+```java
+   /**
+    * 分享表情----直接分享至某一平台
+    * imageUrl:  表情链接 （不能为空）
+    * shareType: 分享类型 （不能为空）
+    * shareMedia: 分享的平台类型（必传）--此处以分享至微信为例（其他参数可参考上面第5条的shareMedia 的取值）
+    */
+    weex.requireModule('UMShareManager').sharePlatform({
+         imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+         shareType: 'emoji'，
+	 shareMedia:'weixin'
+    }, success => {
+         console.log("heyn----success: " + success);
+    }, failure => {
+         console.log("heyn----failure: " + failure);
+    })
+```
+##### 8. 分享小程序----shareType: minApp
+    8.1 带分享面板 ----shareParams 
 ```java 
    /**
     * 分享小程序
@@ -433,6 +502,35 @@ public class DDShareActivity extends DingCallBack {
          console.log("heyn----failure: " + failure);
    })
 ```
+    8.2 直接分享至某一平台 ----sharePlatform  
+```java 
+   /**
+    * 分享小程序----直接分享至某一平台
+    * url:      小程序的链接
+    * title:    小程序的标题
+    * content:  小程序简介
+    * imageUrl: 缩略图
+    * path:     小程序的页面路径
+    * userName: 小程序的ID
+    * shareType:分享类型 
+    * shareMedia: 分享的平台类型（必传）--此处以分享至微信为例（其他参数可参考上面第5条的shareMedia 的取值）
+    */
+    weex.requireModule('UMShareManager').sharePlatform({
+         url:'http://mobile.umeng.com/social',
+         title:'小程序白标题',
+         content: '分享小程序',
+         imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+         path:'pages/page10007/page10007',
+         userName:'gh_3ac2059ac66f',
+         shareType: 'minApp',
+	 shareMedia:'weixin'
+   }, success => {
+         console.log("heyn----success: " + success);
+   }, failure => {
+         console.log("heyn----failure: " + failure);
+   })
+```
+
 License
 ------
     Copyright 2018-2019 heynchy
