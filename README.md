@@ -25,7 +25,7 @@
 ### 2. Add dependency
 ```groovy
 	dependencies {
-	        implementation 'com.github.heynchy:eros-plugin-umeng-share:0.0.8'
+	        implementation 'com.github.heynchy:eros-plugin-umeng-share:1.0.0'
 	}
 ```
 ### 3. Modify AndroidManifest.xml(修改清单文件)
@@ -191,7 +191,7 @@ public class DDShareActivity extends DingCallBack {
 	               
 ### JS 端的使用方法 
 ##### 1. 分享文本-----shareType: Text    
-     1.1 带分享面板 
+     1.1 带分享面板 ----shareParams
 ```java
     /**
      *  分享纯文本 --- 分享面板
@@ -207,7 +207,7 @@ public class DDShareActivity extends DingCallBack {
           console.log("heyn----failure: " + failure);
     })
 ```
-     1.2 直接分享至某一平台 
+     1.2 直接分享至某一平台 ----- sharePlatform
 ```java
     /**
      *  分享纯文本---直接分享至某一平台
@@ -225,7 +225,8 @@ public class DDShareActivity extends DingCallBack {
           console.log("heyn----failure: " + failure);
     })
 ```
-    2. 分享网络图片-----shareType: Image
+##### 2. 分享网络图片-----shareType: Image
+    2.1  带分享面板 ----shareParams
 ```java
     /**
      *  分享图片
@@ -241,7 +242,26 @@ public class DDShareActivity extends DingCallBack {
           console.log("heyn----failure: " + failure);
      })
 ```
-    3. 分享网页------ shareType:webPage
+    1.2 直接分享至某一平台 ----- sharePlatform
+```java
+    /**
+     *  分享图片----直接分享至某一平台
+     *  imageUrl： 图片链接（不能为空）
+     *  shareType：分享类型（不能为空）
+     *  shareMedia: 分享的平台类型（必传）--此处以分享至微信为例（其他参数可参考上面第5条的shareMedia 的取值）
+     */
+     weex.requireModule('UMShareManager').sharePlatform({
+          imageUrl: 'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+          shareType: 'Image'，
+	  shareMedia:'weixin'
+     }, success => {
+          console.log("heyn----success: " + success);
+     }, failure => {
+          console.log("heyn----failure: " + failure);
+     })
+```
+##### 3. 分享网页------ shareType:webPage
+    3.1 带分享面板 ----shareParams
 ```java
     /**
      *  分享网页
@@ -263,7 +283,32 @@ public class DDShareActivity extends DingCallBack {
           console.log("heyn----failure: " + failure);
      })
 ```
-    4. 分享图文-----shareType:TextImage
+    3.2 直接分享至某一平台 ----sharePlatform
+```java
+    /**
+     *  分享网页----直接分享至某一平台
+     *  url：      网页链接（不能为空）
+     *  title：    网页标题（可为空）
+     *  content：  网页简介（可为空）
+     *  imageUrl： 网页缩略图链接（可为空）
+     *  shareType：分享类型（不能为空）
+     *  shareMedia: 分享的平台类型（必传）--此处以分享至微信为例（其他参数可参考上面第5条的shareMedia 的取值）
+     */
+     weex.requireModule('UMShareManager').sharePlatform({
+          url: 'https://www.baidu.com/',  
+          title:'我的网页分享ddd',
+          content:'这是一个网页分享',
+          imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+          shareType: 'webPage'，
+	  shareMedia:'weixin'
+     }, success => {
+          console.log("heyn----success: " + success);
+     }, failure => {
+          console.log("heyn----failure: " + failure);
+     })
+```
+##### 4. 分享图文-----shareType:TextImage
+    4.1 带分享面板 ----shareParams
 ```java
     /**
      *  分享图文
@@ -281,7 +326,28 @@ public class DDShareActivity extends DingCallBack {
           console.log("heyn----failure: " + failure);
      })
 ```
-    5. 分享音频----shareType: music
+    4.2 直接分享至某一平台 ----sharePlatform
+```java
+    /**
+     *  分享图文---直接分享至某一平台
+     *  content :  文本内容 (不能为空)
+     *  imageUrl： 图片链接（不能为空）
+     *  shareType：分享类型（不能为空）
+     *  shareMedia: 分享的平台类型（必传）--此处以分享至微信为例（其他参数可参考上面第5条的shareMedia 的取值）
+     */
+     weex.requireModule('UMShareManager').sharePlatform({
+          content: '分享图文',
+          imageUrl:'https://mobile.umeng.com/images/pic/home/social/img-1.png',
+          shareType: 'TextImage'，
+	   shareMedia:'weixin'
+     }, success => {
+          console.log("heyn----success: " + success);
+     }, failure => {
+          console.log("heyn----failure: " + failure);
+     })
+```
+##### 5. 分享音频----shareType: music
+    5.1 
 ```java
 /**
  *  分享音乐
