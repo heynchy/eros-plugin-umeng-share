@@ -20,7 +20,7 @@ public class JSShareEvent implements Serializable {
     private String userName;        // 分享小程序的名称
     private String shareType;       // 分享的资源类型
     private String [] platforms;    // 分享的平台类型(分享面板)
-    private int shareMedia;         // 分享至某一平台
+    private String shareMedia;      // 分享至某一平台
 
 
     public String getTitle() {
@@ -87,11 +87,11 @@ public class JSShareEvent implements Serializable {
         this.platforms = platforms;
     }
 
-    public int getShareMedia() {
+    public String getShareMedia() {
         return shareMedia;
     }
 
-    public void setShareMedia(int shareMedia) {
+    public void setShareMedia(String shareMedia) {
         this.shareMedia = shareMedia;
     }
 }

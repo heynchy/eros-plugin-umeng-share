@@ -19,6 +19,7 @@ import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.media.UMusic;
 
 import static com.heyn.erosplugin.wx_umeng_share.activity.ShareAllActivity.finishSelf;
+import static com.heyn.erosplugin.wx_umeng_share.activity.SharePlatformActivity.finishPlatform;
 import static com.heyn.erosplugin.wx_umeng_share.util.AppIsAvailableUtil.isQQClientAvailable;
 
 /**
@@ -42,6 +43,7 @@ public class ShareActionUtil {
                 success.invoke("分享成功");
             }
             finishSelf();
+            finishPlatform();
         }
 
         @Override
@@ -50,6 +52,7 @@ public class ShareActionUtil {
                 failure.invoke("分享失败： " + e.getMessage());
             }
             finishSelf();
+            finishPlatform();
         }
 
         @Override
@@ -58,6 +61,7 @@ public class ShareActionUtil {
                 failure.invoke("分享取消了");
             }
             finishSelf();
+            finishPlatform();
         }
     };
 
@@ -280,6 +284,7 @@ public class ShareActionUtil {
             }
         }
         finishSelf();
+        finishPlatform();
     }
 
     /**

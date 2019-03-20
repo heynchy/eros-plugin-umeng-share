@@ -7,6 +7,14 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.heyn.erosplugin.wx_umeng_share.util.Constant.SHARE_MEDIA_DINGTALK;
+import static com.heyn.erosplugin.wx_umeng_share.util.Constant.SHARE_MEDIA_QQ;
+import static com.heyn.erosplugin.wx_umeng_share.util.Constant.SHARE_MEDIA_QZONE;
+import static com.heyn.erosplugin.wx_umeng_share.util.Constant.SHARE_MEDIA_SINA;
+import static com.heyn.erosplugin.wx_umeng_share.util.Constant.SHARE_MEDIA_WEIXIN;
+import static com.heyn.erosplugin.wx_umeng_share.util.Constant.SHARE_MEDIA_WEIXIN_CIRCLE;
+import static com.heyn.erosplugin.wx_umeng_share.util.Constant.SHARE_MEDIA_WEIXIN_FAVORITE;
+
 /**
  *
  */
@@ -18,6 +26,7 @@ public class StyleUtil {
     public static boolean isWeixinFavorite = true;
     public static boolean isSina = true;
     public static boolean isQQ = true;
+    public static boolean isQZONE = true;
     public static boolean isDingTalk = true;
 
 
@@ -53,7 +62,9 @@ public class StyleUtil {
 
                 if (isQQ && AppIsAvailableUtil.isQQClientAvailable(context)) {
                     platforms.add(SHARE_MEDIA.QQ);
-                    platforms.add(SHARE_MEDIA.QZONE);
+                    if (isQZONE) {
+                        platforms.add(SHARE_MEDIA.QZONE);
+                    }
                 }
 
                 if (isDingTalk && AppIsAvailableUtil.isDingTalkAvailable(context)) {
@@ -65,15 +76,21 @@ public class StyleUtil {
             case EMOJI:         // 分享的类型为表情
                 if (isWeixin && AppIsAvailableUtil.isWeixinAvailable(context)) {
                     platforms.add(SHARE_MEDIA.WEIXIN);
-                    platforms.add(SHARE_MEDIA.WEIXIN_CIRCLE);
-                    platforms.add(SHARE_MEDIA.WEIXIN_FAVORITE);
+                    if(isWeixinCircle){
+                        platforms.add(SHARE_MEDIA.WEIXIN_CIRCLE);
+                    }
+                    if (isWeixinFavorite){
+                        platforms.add(SHARE_MEDIA.WEIXIN_FAVORITE);
+                    }
                 }
                 if (isSina && AppIsAvailableUtil.isSinaAvailable(context)) {
                     platforms.add(SHARE_MEDIA.SINA);
                 }
                 if (isQQ && AppIsAvailableUtil.isQQClientAvailable(context)) {
                     platforms.add(SHARE_MEDIA.QQ);
-                    platforms.add(SHARE_MEDIA.QZONE);
+                    if (isQZONE){
+                        platforms.add(SHARE_MEDIA.QZONE);
+                    }
                 }
                 if (isDingTalk && AppIsAvailableUtil.isDingTalkAvailable(context)) {
                     platforms.add(SHARE_MEDIA.DINGTALK);
@@ -89,7 +106,9 @@ public class StyleUtil {
                     platforms.add(SHARE_MEDIA.SINA);
                 }
                 if (isQQ && AppIsAvailableUtil.isQQClientAvailable(context)) {
-                    platforms.add(SHARE_MEDIA.QZONE);
+                    if (isQZONE){
+                        platforms.add(SHARE_MEDIA.QZONE);
+                    }
                 }
                 break;
             case MINAPP:        // 分享的类型为小程序
@@ -112,21 +131,21 @@ public class StyleUtil {
      * @param media
      * @return
      */
-    public static SHARE_MEDIA getShareMedia(int media) {
-        switch (media) {
-            case 0:  // 微信分享
+    public static SHARE_MEDIA getShareMedia(String media) {
+        switch (media.toLowerCase()) {
+            case SHARE_MEDIA_WEIXIN:  // 微信分享
                 return SHARE_MEDIA.WEIXIN;
-            case 1:  // 微信朋友圈分享
+            case SHARE_MEDIA_WEIXIN_CIRCLE:  // 微信朋友圈分享
                 return SHARE_MEDIA.WEIXIN_CIRCLE;
-            case 2:  // 微信收藏分享
+            case SHARE_MEDIA_WEIXIN_FAVORITE:  // 微信收藏分享
                 return SHARE_MEDIA.WEIXIN_FAVORITE;
-            case 3:  // QQ 分享
+            case SHARE_MEDIA_QQ:  // QQ 分享
                 return SHARE_MEDIA.QQ;
-            case 4:  // QQ空间分享
+            case SHARE_MEDIA_QZONE:  // QQ空间分享
                 return SHARE_MEDIA.QZONE;
-            case 5:  // 新浪微博分享
+            case SHARE_MEDIA_SINA:  // 新浪微博分享
                 return SHARE_MEDIA.SINA;
-            case 6:  // 钉钉分享
+            case SHARE_MEDIA_DINGTALK:  // 钉钉分享
                 return SHARE_MEDIA.DINGTALK;
         }
         return null;

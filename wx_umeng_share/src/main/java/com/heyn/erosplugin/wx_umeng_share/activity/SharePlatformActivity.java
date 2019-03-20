@@ -81,7 +81,7 @@ public class SharePlatformActivity extends Activity implements IWXRenderListener
                         if (ShareActionUtil.getSuccess() != null) {
                             ShareActionUtil.getSuccess().invoke("分享成功！");
                         }
-                        finishSelf();
+                        finishPlatform();
                     }
                 }
             }, 200);
@@ -109,7 +109,7 @@ public class SharePlatformActivity extends Activity implements IWXRenderListener
             if (ShareActionUtil.getFailure() != null) {
                 ShareActionUtil.getFailure().invoke("分享类型未设置");
             }
-            finishSelf();
+            finishPlatform();
             return;
         }
     }
@@ -121,12 +121,12 @@ public class SharePlatformActivity extends Activity implements IWXRenderListener
         mRootView.post(new Runnable() {
             @Override
             public void run() {
-                int shareMedia = event.getShareMedia();
+                String shareMedia = event.getShareMedia();
                 SHARE_MEDIA share_media = StyleUtil.getShareMedia(event.getShareMedia());
                 if (share_media == null){
                     return;
                 }
-                if (shareMedia == 0 || shareMedia == 1 || shareMedia == 2) {
+                if (shareMedia.toLowerCase().contains("weixin")) {
                     // 如果是分享至微信
                     isWxSharing = true;
                 } else {
@@ -156,7 +156,7 @@ public class SharePlatformActivity extends Activity implements IWXRenderListener
             if (ShareActionUtil.getFailure() != null) {
                 ShareActionUtil.getFailure().invoke("权限获取失败，分享失败！");
             }
-            finishSelf();
+            finishPlatform();
         }
     }
 
@@ -180,7 +180,7 @@ public class SharePlatformActivity extends Activity implements IWXRenderListener
     /**
      * 销毁界面
      */
-    public static void finishSelf() {
+    public static void finishPlatform() {
         isWxResume = true;
         if (activity != null) {
             activity.finish();
