@@ -242,7 +242,7 @@ public class DDShareActivity extends DingCallBack {
           console.log("heyn----failure: " + failure);
      })
 ```
-    1.2 直接分享至某一平台 ----- sharePlatform
+    2.1 直接分享至某一平台 ----- sharePlatform
 ```java
     /**
      *  分享图片----直接分享至某一平台
