@@ -180,6 +180,15 @@ public class DDShareActivity extends DingCallBack {
        StyleUtil.isQZONE = true;          (QQ空间)
        StyleUtil.isDingTalk = true;      （钉钉分享)
        
+    5. 不带分享面板，直接分享至某一平台的使用中JS端增加了shareMedia 的参数，为必传信息（不区分大小写）,相关参数如下：
+       'weixin'           // 微信分享
+       'weixin_circle'    // 微信朋友圈分享
+       'weixin_favorite'  // 微信收藏
+       'sina'             // 新浪微博分享
+       'qq'               // QQ分享
+       'qzone'            // QQ空间分享
+       'ding_talk'        // 钉钉分享
+	               
 ### JS 端的使用方法 
 ##### 1. 分享文本-----shareType: Text    
      1.1 带分享面板 
@@ -198,13 +207,13 @@ public class DDShareActivity extends DingCallBack {
           console.log("heyn----failure: " + failure);
     })
 ```
-     1.2 直接分享 
+     1.2 直接分享至某一平台 
 ```java
     /**
-     *  分享纯文本---直接分享至某一平台，以微信为例
+     *  分享纯文本---直接分享至某一平台
      *  content：  文本内容（不能为空）
      *  shareType：分享类型（不能为空）
-     *  shareMedia: 分享的平台类型（不能为空）
+     *  shareMedia: 分享的平台类型（必传）--此处以分享至微信为例（其他参数可参考上面第5条的shareMedia 的取值）
      */
     weex.requireModule('UMShareManager').sharePlatform({
           content: '这是一个未来！！',
