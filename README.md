@@ -1,21 +1,34 @@
 # eros-plugin-umeng-share
 基于Eros框架下的友盟分享集成（Weex与Android的交互）：
      
-      目前仅支持友盟带有分享面板的分享（包括微信，微信朋友圈，微信收藏，QQ，QQ空间，新浪微博，钉钉）; 
-      可以选择分享的条目，例如选择分享至微信（微信， 朋友圈， 微信收藏）
-     
+      1. 支持友盟带有分享面板的分享（包括微信，微信朋友圈，微信收藏，QQ，QQ空间，新浪微博，钉钉）--- 只有已安装的才会显示; 
+      2. 可以选择分享的条目，例如选择分享至微信（微信， 朋友圈， 微信收藏）
+      3. 支持单一平台的分享，不带有分享面板，例如（分享至微信或分享至微信朋友圈）
+      
+### 版本更新
      1. 初始版本 ------支持带有分享面板的分享； 可以选择分享面板的展示条目
      2. 版本0.0.7  ----- 处理集成过程中的兼容性问题
      3. 版本0.0.8  ------处理权限问题； 微信分享后，选择留在微信无回调的问题
+     4. 版本1.0.0  ------2019/3/20 增加分享面板的选项设置参数，包括微信朋友圈，微信收藏和QQ空间（可以选择某一平台是否展示在面板上）；
+                                   增加直接分享至某一平台功能，不展示分享面板
+                                   
      
 ## Usage
-### 1. Add dependency
+### 1. Add dependency in your root build.gradle
+```groovy
+	allprojects {
+		repositories {
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+### 2. Add dependency
 ```groovy
 	dependencies {
 	        implementation 'com.github.heynchy:eros-plugin-umeng-share:0.0.8'
 	}
 ```
-### 2. Modify AndroidManifest.xml(修改清单文件)
+### 3. Modify AndroidManifest.xml(修改清单文件)
 ```java
  <!-----------------友盟分享 微信---------------------->
         <activity
@@ -99,6 +112,8 @@ public class DDShareActivity extends DingCallBack {
     1. 与neuxs包中已经集成的微信6.9.3版本的包发生冲突？
        修改neuxs中的build.gradle中的 compile files('libs/umeng-share-core-6.9.3.jar')修改为：
         provided files('libs/umeng-share-core-6.9.3.jar');
+    2. 因为不同版本的wxframework和nexus对于微信分享有着不同程度的集成处理，如果出现了冲突，可将两个module项目中的与友盟分享相关的jar包，设置为
+       priovided形式即可
 	
 ## 完成以上配置后就可以使用了
 
@@ -130,7 +145,8 @@ public class DDShareActivity extends DingCallBack {
 ```
     2. Module名称： UMShareManager
     
-    3. Module方法： shareParams()
+    3. Module方法：
+     3.1shareParams()-----带有分享面板
 ```java
  /**
      * 分享面板（默认有 微信， 朋友圈， 微信收藏， 新浪微博， QQ, QQ空间，钉钉）
@@ -142,23 +158,56 @@ public class DDShareActivity extends DingCallBack {
     @JSMethod(uiThread = true)
     public void shareParams(String params, final JSCallback success, final JSCallback failure)
 ```
-    4. 设置面板展示条目的参数（以下参数默认为 true, 当设置为false时，分享面板不会展示对应的项目，设置需在Application中进行）
-       StyleUtil.isWeixin = true;(微信分享，包括微信，朋友圈，微信收藏)
-       StyleUtil.isSina = true;  （新浪微博分享）
-       StyleUtil.isQQ = true;     (QQ 分享， 包括QQ和QQ空间)
-       StyleUtil.isDingTalk = true;（钉钉分享）)
-       
-### JS 端的使用方法
-    1. 分享文本-----shareType: Text
+    3.2 sharePlatform-----不带分享面板，直接分享至某一平台
 ```java
     /**
-     *  分享纯文本
+     * 分享微信， 朋友圈， 微信收藏， 新浪微博， QQ, QQ空间，钉钉
+     *
+     * @param params  相关参数
+     * @param success 成功的回调
+     * @param failure 失败的回调
+     */
+    @JSMethod(uiThread = true)
+    public void sharePlatform(String params, final JSCallback success, final JSCallback failure) 
+```
+    4. 设置面板展示条目的参数（以下参数默认为 true, 当设置为false时，分享面板不会展示对应的项目，设置需在Application中进行）
+       StyleUtil.isWeixin = true;         (微信分享，包括微信，朋友圈，微信收藏)
+       StyleUtil.isWeixinCircle = true;   (微信朋友圈)
+       StyleUtil.isWeixinFavorite = true; (微信收藏)
+       StyleUtil.isSina = true;          （新浪微博分享）
+       StyleUtil.isQQ = true;             (QQ 分享， 包括QQ和QQ空间)
+       StyleUtil.isQZONE = true;          (QQ空间)
+       StyleUtil.isDingTalk = true;      （钉钉分享)
+       
+### JS 端的使用方法 
+    1. 分享文本-----shareType: Text
+      1.1 带分享面板 
+```java
+    /**
+     *  分享纯文本 --- 分享面板
      *  content：  文本内容（不能为空）
      *  shareType：分享类型（不能为空）
      */
     weex.requireModule('UMShareManager').shareParams({
           content: '这是一个未来！！',
           shareType: 'Text'
+    }, success => {
+          console.log("heyn----success: " + success);
+    }, failure => {
+          console.log("heyn----failure: " + failure);
+    })
+```
+```java
+    /**
+     *  分享纯文本---直接分享至某一平台，以微信为例
+     *  content：  文本内容（不能为空）
+     *  shareType：分享类型（不能为空）
+     *  shareMedia: 分享的平台类型（不能为空）
+     */
+    weex.requireModule('UMShareManager').sharePlatform({
+          content: '这是一个未来！！',
+          shareType: 'Text'
+	  shareMedia:'weixin'
     }, success => {
           console.log("heyn----success: " + success);
     }, failure => {
