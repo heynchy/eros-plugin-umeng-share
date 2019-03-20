@@ -181,9 +181,9 @@ public class DDShareActivity extends DingCallBack {
        StyleUtil.isDingTalk = true;      （钉钉分享)
        
 ### JS 端的使用方法 
-    1. 分享文本-----shareType: Text     
+##### 1. 分享文本-----shareType: Text    
+     1.1 带分享面板 
 ```java
-   1.1 带分享面板 
     /**
      *  分享纯文本 --- 分享面板
      *  content：  文本内容（不能为空）
