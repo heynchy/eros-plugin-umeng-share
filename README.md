@@ -9,8 +9,8 @@
      1. 初始版本 ------支持带有分享面板的分享； 可以选择分享面板的展示条目
      2. 版本0.0.7  ----- 处理集成过程中的兼容性问题
      3. 版本0.0.8  ------处理权限问题； 微信分享后，选择留在微信无回调的问题
-     4. 版本1.0.0  ------2019/3/20 增加分享面板的选项设置参数，包括微信朋友圈，微信收藏和QQ空间（可以选择某一平台是否展示在面板上）；
-                                   增加直接分享至某一平台功能，不展示分享面板
+     4. 版本1.0.0  ------2019/3/20 增加分享面板的选项设置参数，包括微信朋友圈，微信收藏和QQ空间（可以选择某一平台是否
+                                  展示在面板上）；增加直接分享至某一平台功能，不展示分享面板
                                    
      
 ## Usage
@@ -146,7 +146,7 @@ public class DDShareActivity extends DingCallBack {
     2. Module名称： UMShareManager
     
     3. Module方法：
-     3.1shareParams()-----带有分享面板
+      3.1  shareParams()-----带有分享面板
 ```java
  /**
      * 分享面板（默认有 微信， 朋友圈， 微信收藏， 新浪微博， QQ, QQ空间，钉钉）
@@ -158,7 +158,7 @@ public class DDShareActivity extends DingCallBack {
     @JSMethod(uiThread = true)
     public void shareParams(String params, final JSCallback success, final JSCallback failure)
 ```
-    3.2 sharePlatform-----不带分享面板，直接分享至某一平台
+      3.2  sharePlatform-----不带分享面板，直接分享至某一平台
 ```java
     /**
      * 分享微信， 朋友圈， 微信收藏， 新浪微博， QQ, QQ空间，钉钉
@@ -181,6 +181,7 @@ public class DDShareActivity extends DingCallBack {
        
 ### JS 端的使用方法 
     1. 分享文本-----shareType: Text
+    
       1.1 带分享面板 
 ```java
     /**
@@ -197,6 +198,7 @@ public class DDShareActivity extends DingCallBack {
           console.log("heyn----failure: " + failure);
     })
 ```
+     1.2 直接分享 
 ```java
     /**
      *  分享纯文本---直接分享至某一平台，以微信为例
